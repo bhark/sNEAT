@@ -14,7 +14,7 @@ In the simplest case, all you need to begin training a neural network for any gi
 
 1. Install the package
 
-`pip install sneat`
+`$ pip install sneat`
 
 2. Set up your fitness function
 
@@ -28,7 +28,7 @@ def fitness_function(genome):
 
     # feed input to the genomes neural network, return its output
     output = genome.activate(inputs) 
-    
+
     difference = (output - target) ** 2
     fitness = 1 / difference
     return fitness
