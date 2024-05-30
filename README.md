@@ -1,4 +1,4 @@
-# SNEAT (Simplified NEAT)
+# sNEAT (Simplified NEAT)
 
 ![GitHub Tag](https://img.shields.io/github/v/tag/bhark/sneat) 
 ![PyPI - Version](https://img.shields.io/pypi/v/sneat)
