@@ -4,6 +4,7 @@ setup(
     name='sneat',
     version='0.0.2',
     packages=find_packages(),
+    package_data={'sneat': ['default_config.ini']},
     install_requires=[
         'matplotlib==3.9.0',
         'networkx==3.3',

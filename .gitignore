@@ -1,5 +1,6 @@
 # pickled objects and such
 *.pkl
+testing.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

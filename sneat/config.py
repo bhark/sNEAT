@@ -15,25 +15,16 @@ activation_functions = {
 }
 
 def get_config():
-    """
-    Loads the default configuration and merges it with any user-provided 'config.ini' 
-    in the directory of the executing script.
-    """
-    # initialize the ConfigParser
     config = cp.ConfigParser()
 
-    # path to the default configuration file
+    # get the directory where this file is located
     dirpath = os.path.abspath(os.path.dirname(__file__))
     default_config_path = os.path.join(dirpath, 'default_config.ini')
-
-    # read the default configuration
     config.read(default_config_path)
 
-    # path to a potential user-defined configuration in the execution directory
+    # load users config if it exists
     execution_path = os.path.abspath(os.getcwd())
     user_config_path = os.path.join(execution_path, 'config.ini')
-
-    # check if there's a user config in the execution directory and read it if it exists
     if os.path.exists(user_config_path):
         config.read(user_config_path)
 
