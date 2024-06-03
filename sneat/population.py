@@ -42,12 +42,29 @@ class Population:
         for g in self.genomes:
             g.normalized_fitness = (g.fitness - min_fitness) / (max_fitness - min_fitness)
 
-        # assign adjusted fitness scores
         for s in self.species:
-            s_size = len(s.members)
 
+            # bump stagnation
+            if s.members[0].fitness > s.best_fitness:
+                s.best_fitness = s.members[0].fitness
+                s.stagnation = 0
+            else:
+                s.stagnation += 1
+
+            # assign adjusted fitness scores
+            s_size = len(s.members)
             for g in s.members:
                 g.adjusted_fitness = max(g.normalized_fitness / s_size, 0.0001) # avoid division by zero
+
+        # remove stagnant species
+        while len(self.species) >= self.config.getint('Evolution', 'min_species'):
+            stagnant_species = [s for s in self.species if s.stagnation >= self.config.getint('Evolution', 'max_stagnation')]
+            stagnant_species = sorted(stagnant_species, key=lambda x: x.best_fitness, reverse=True)
+            if not stagnant_species:
+                break
+            extinct = stagnant_species.pop()
+            self.species.remove(extinct)
+            print(f'[i] Species {extinct.id} went extinct')
 
         # perform reproduction inside of each species
         offspring = []

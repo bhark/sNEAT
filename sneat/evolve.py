@@ -38,11 +38,11 @@ def load_checkpoint():
 
 def print_stats(pop):
     print(f'\n\n[i] Gen. {pop.generation}:')
-    headers = ['Species', 'Members', 'Best Fitness', 'Average Fitness']
+    headers = ['Species', 'Members', 'Best Fitness', 'Average Fitness', 'Stagnation', 'Best Complexity']
     for s in pop.species:
         s.members = sorted(s.members, key=lambda x: x.fitness, reverse=True)
     species = sorted(pop.species, key=lambda x: x.members[0].fitness, reverse=True)
-    data = [[s.id, len(s.members), round(max(g.fitness for g in s.members), 2), round(np.mean([g.fitness for g in s.members]), 2)] for s in species]
+    data = [[s.id, len(s.members), round(max(g.fitness for g in s.members), 2), round(np.mean([g.fitness for g in s.members]), 2), s.stagnation, f'{len(s.members[0].network.nodes)}n + {len(s.members[0].network.connections)}'] for s in species]
     print(tb(data, headers=headers))
     print('-' * 55)
 
