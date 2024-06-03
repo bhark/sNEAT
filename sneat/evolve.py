@@ -57,17 +57,19 @@ def evolve(fitness_function):
                 winner = max(pop.genomes, key=lambda x: x.fitness)
                 save_genome(winner, 'winner.pkl')
                 print(f'\n\n[+] Winner found with fitness: {winner.fitness}\n\n')
-                break
+                return winner
             
             if pop.generation >= max_generations:
                 winner = max(pop.genomes, key=lambda x: x.fitness)
                 save_genome(winner, 'winner.pkl')
                 print(f'\n\n[+] Reached max generations, and achieved a fitness of: {winner.fitness}\n\n')
-                break
+                return winner
+                
     except KeyboardInterrupt:
             winner = max(pop.genomes, key=lambda x: x.fitness)
             print(f'\n\n[+] Best genome saved, with a fitness of {winner.fitness}\n')
             save_genome(winner, 'winner.pkl')
+            return winner
 
 
     
