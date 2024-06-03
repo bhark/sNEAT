@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 
+with open('README.md', 'r', encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='sneat',
-    version='0.0.5',
+    version='0.0.6',
     packages=find_packages(),
     package_data={'sneat': ['default_config.ini']},
     install_requires=[
@@ -22,5 +25,18 @@ setup(
     author='Adrian E. Bratlann',
     author_email='aeb@tetrabit.coop',
     description='Simplified implementation of NEAT (Neuro-Evolution of Augmenting Topologies).',
-    license='GPLv3'
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/bhark/sNEAT',
+    license='GPLv3',
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Education',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Programming Language :: Python :: 3.12',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ]
 )
