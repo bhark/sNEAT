@@ -11,7 +11,7 @@ def fitness(genome, render=False):
     env = gym.make('LunarLander-v2', continuous=True, render_mode='human' if render else 'rgb_array')
 
     fitnesses = []
-    for _ in range(5):
+    for _ in range(2):
         fitness = 0
 
         obs, info = env.reset()
