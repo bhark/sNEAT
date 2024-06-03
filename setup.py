@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sneat',
-    version='0.0.3',
+    version='0.0.5',
     packages=find_packages(),
     package_data={'sneat': ['default_config.ini']},
     install_requires=[
@@ -12,6 +12,13 @@ setup(
         'tabulate==0.9.0',
         'tqdm==4.66.4'
     ],
+    extras_require={
+        'examples': [
+            'gymnasium',
+            'gymnasium[box2d]',
+            'gymnasium[classic_control]',
+        ]
+    },
     author='Adrian E. Bratlann',
     author_email='aeb@tetrabit.coop',
     description='Simplified implementation of NEAT (Neuro-Evolution of Augmenting Topologies).',
