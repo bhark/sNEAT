@@ -13,6 +13,7 @@ class Population:
         self.species = []
         self.generation = 0
         self.compatibility_threshold = self.config.getfloat('Population', 'compatibility_threshold')
+        self.best_genome_seen = None
         self.callbacks = {
             'find_or_create_innovation': self.find_or_create_innovation,
             'get_next_genome_id': self.get_next_genome_id,
@@ -34,6 +35,8 @@ class Population:
         elite_size = self.config.getint('Population', 'elite_size')
         min_species_size = self.config.getint('Population', 'min_species_size')
         population_size = self.config.getint('Population', 'population_size')
+
+        offspring = []
 
         # normalize fitness scores
         min_fitness = min(g.fitness for g in self.genomes)
@@ -58,17 +61,22 @@ class Population:
                 g.adjusted_fitness = max(g.normalized_fitness / s_size, 0.0001) # avoid division by zero
 
         # remove stagnant species
-        while len(self.species) >= self.config.getint('Evolution', 'min_species'):
+        while len(self.species) > self.config.getint('Evolution', 'min_species'):
             stagnant_species = [s for s in self.species if s.stagnation >= self.config.getint('Evolution', 'max_stagnation')]
             stagnant_species = sorted(stagnant_species, key=lambda x: x.best_fitness, reverse=True)
             if not stagnant_species:
                 break
             extinct = stagnant_species.pop()
+            extinct.members = sorted(extinct.members, key=lambda x: x.fitness, reverse=True)
+
+            # preserve the elite
+            elite = extinct.members[:elite_size]
+            offspring.extend([g.clone() for g in elite])
+
             self.species.remove(extinct)
-            print(f'[i] Species {extinct.id} went extinct')
+            print(f'[i] Species {extinct.id} went extinct due to stagnation')
 
         # perform reproduction inside of each species
-        offspring = []
         for s in self.species:
             s_offspring = []
 
