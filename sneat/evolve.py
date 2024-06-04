@@ -45,17 +45,17 @@ def print_stats(pop):
 
     # print general stats
     print(f'\n[i] Generation: {pop.generation}')
-    print(f'[i] Compatibility threshold: {pop.compatibility_threshold}')
+    print(f'[i] Compatibility threshold: {round(pop.compatibility_threshold, 2)}')
     print(f'[i] Species: {len(pop.species)}')
     print(f'[i] Average fitness: {round(np.mean([g.fitness for g in pop.genomes]), 2)}')
     print(f'[i] Best fitness: {round(max(g.fitness for g in pop.genomes), 2)} (best ever: {round(pop.best_genome_seen.fitness, 2) if pop.best_genome_seen else 'N/A'})')
-    print('-' * 75)
+    print('-' * 85)
 
     # print species
     headers = ['Species', 'Members', 'Best Fitness', 'Average Fitness', 'Stagnation', 'Best Complexity']
     data = [[s.id, len(s.members), round(max(g.fitness for g in s.members), 2), round(np.mean([g.fitness for g in s.members]), 2), s.stagnation, f'{len(s.members[0].network.nodes)}n + {len(s.members[0].network.connections)}'] for s in species]
     print(tb(data, headers=headers))
-    print('-' * 75)
+    print('-' * 85)
 
 def evolve(fitness_function):
     config = get_config()
