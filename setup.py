@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='sneat',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages(),
     package_data={'sneat': ['default_config.ini']},
     install_requires=[
