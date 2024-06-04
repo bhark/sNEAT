@@ -46,6 +46,7 @@ def print_stats(pop):
     # print general stats
     print(f'\n[i] Generation: {pop.generation}')
     print(f'[i] Compatibility threshold: {round(pop.compatibility_threshold, 2)}')
+    print(f'[i] Population size: {len(pop.genomes)}')
     print(f'[i] Species: {len(pop.species)}')
     print(f'[i] Average fitness: {round(np.mean([g.fitness for g in pop.genomes]), 2)}')
     print(f'[i] Best fitness: {round(max(g.fitness for g in pop.genomes), 2)} (best ever: {round(pop.best_genome_seen.fitness, 2) if pop.best_genome_seen else 'N/A'})')
