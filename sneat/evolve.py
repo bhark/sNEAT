@@ -31,13 +31,15 @@ def load_checkpoint():
     try:
         with open('checkpoint.pkl', 'rb') as f:
             pop = pkl.load(f)
-            print(f'[i] Restoring from checkpoint (gen. {pop.generation})...')
+            print(f'[+] Loaded checkpoint (gen. {pop.generation})')
             return pop
     except FileNotFoundError:
         return None
 
 def print_stats(pop):
-    print(f'\n\n[i] Gen. {pop.generation}:')
+    print(f'\n[i] Generation: {pop.generation}')
+    print(f'[i] Compatibility threshold: {pop.compatibility_threshold}')
+    print(f'[i] Species: {len(pop.species)}\n')
     headers = ['Species', 'Members', 'Best Fitness', 'Average Fitness', 'Stagnation', 'Best Complexity']
     for s in pop.species:
         s.members = sorted(s.members, key=lambda x: x.fitness, reverse=True)

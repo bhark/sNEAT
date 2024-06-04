@@ -12,6 +12,7 @@ class Population:
         self.species_counter = 0
         self.species = []
         self.generation = 0
+        self.compatibility_threshold = self.config.getfloat('Population', 'compatibility_threshold')
         self.callbacks = {
             'find_or_create_innovation': self.find_or_create_innovation,
             'get_next_genome_id': self.get_next_genome_id,
@@ -125,7 +126,7 @@ class Population:
             
             for sid, rep in new_reps.items():
                 d = self.measure_genetic_distance(rep, g)
-                if d < self.config.getfloat('Population', 'compatibility_threshold'):
+                if d < self.compatibility_threshold:
                     candidates.append((d, sid))
 
             if candidates:
@@ -140,6 +141,13 @@ class Population:
         for s in self.species:
             s.members = new_members[s.id]
             s.representative = new_reps[s.id]
+
+        # adjust compatibility threshold
+        if len(self.species) < self.config.getint('Evolution', 'target_species'):
+            self.compatibility_threshold *= 0.97
+        else:
+            self.compatibility_threshold = self.config.getfloat('Population', 'compatibility_threshold')
+            
 
     def find_or_create_innovation(self, in_node, out_node):
         innovation = next((i for i in self.innovations if i.in_node.id == in_node.id and i.out_node.id == out_node.id), None)
