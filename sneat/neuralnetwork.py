@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 class NeuralNetwork:
     def __init__(self, callbacks):
         if callbacks['config'].getboolean('NeuralNetwork', 'use_normalizer'):
-            self.normalizer = Normalizer(num_input)
+            self.normalizer = Normalizer(callbacks['config'].getint('NeuralNetwork', 'num_inputs'))
         self.node_counter = 0
         self.nodes, self.connections = [], []
         self.callbacks = callbacks # this should contain the "find_or_create_innovation" method
