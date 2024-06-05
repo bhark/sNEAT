@@ -11,26 +11,22 @@ from sneat import evolve
 def fitness(genome, render=False):
     env = gym.make('CartPole-v1', render_mode='human' if render else 'rgb_array')
 
-    fitnesses = []
-    for _ in range(20):
-        fitness = 0
+    fitness = 1000
+    obs, info = env.reset()
+    for _ in range(fitness):
+        obs = list(obs)
+        action = genome.activate(obs)
+        action = np.argmax(action)
+        obs, reward, terminated, truncated, info = env.step(action)
 
-        obs, info = env.reset()
-        while True:
-            obs = list(obs)
-            action = genome.activate(obs)
-            action = np.argmax(action)
-            obs, reward, terminated, truncated, info = env.step(action)
+        if terminated:
+            fitness -= 1 # penalize for falling
 
-            fitness += reward
-
-            if terminated or truncated:
-                break
-
-        fitnesses.append(fitness)
+        if terminated or truncated:
+            obs, info = env.reset()
     
     env.close()
-    return np.mean(fitnesses)
+    return fitness
 
 def main():
     if len(sys.argv) > 1:
