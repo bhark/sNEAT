@@ -35,6 +35,7 @@ class Population:
         elite_size = self.config.getint('Population', 'elite_size')
         min_species_size = self.config.getint('Population', 'min_species_size')
         population_size = self.config.getint('Population', 'population_size')
+        survival_threshold = self.config.getfloat('Population', 'survival_threshold')
 
         offspring = []
 
@@ -84,6 +85,10 @@ class Population:
             s.members.sort(key=lambda x: x.fitness, reverse=True)
             elite = s.members[:elite_size]
             s_offspring.extend([g.clone() for g in elite])
+
+            # kill of worst performing members
+            if len(s.members) > min_species_size + len(elite):
+                s.members = s.members[:int(len(s.members) * survival_threshold + 1)]
 
             # calculate allowed offspring
             total_fitness = sum(g.adjusted_fitness for g in self.genomes)
