@@ -112,4 +112,4 @@ The winning genome will be saved as `winner.pkl`. If you want to see it in actio
 
 ## Results
 
-Naturally, results vary with each run. On average, it takes about 170 generations to solve [Lunar Lander](https://gymnasium.farama.org/environments/box2d/lunar_lander/). [Bipedal Walker](https://gymnasium.farama.org/environments/box2d/bipedal_walker/) takes about 800 generations. I've never been able to solve any of these environments with other open-source NEAT implementations. 
+[Cart Pole](https://gymnasium.farama.org/environments/classic_control/cart_pole/) always solves in less than 10 generations. [Lunar Lander](https://gymnasium.farama.org/environments/box2d/lunar_lander/) consistently solves in under 100 generations. [Bipedal Walker](https://gymnasium.farama.org/environments/box2d/bipedal_walker/) takes about 500 generations. I've never been able to solve either of the last two environments with other open-source NEAT implementations, even though the original paper indicates that tasks like these should be possible to solve - and indeed they are. 
