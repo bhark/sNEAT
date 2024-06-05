@@ -2,6 +2,7 @@ import gymnasium as gym
 import sys
 import os
 import numpy as np
+import pickle
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
@@ -32,7 +33,7 @@ def fitness(genome, render=False):
     return np.mean(fitnesses)
 
 def main():
-    if sys.argv > 1:
+    if len(sys.argv) > 1:
         with open(sys.argv[1], 'rb') as f:
             winner = pickle.load(f)
             fitness(winner, render=True)
