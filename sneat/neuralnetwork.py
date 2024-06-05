@@ -20,12 +20,12 @@ class NeuralNetwork:
     def initialize(self, num_input, num_output):
         self.nodes = [Node(self.next_node_id(), node_type='input', callbacks=self.callbacks) for _ in range(num_input)]
         self.nodes += [Node(self.next_node_id(), node_type='output', callbacks=self.callbacks) for _ in range(num_output)]
-        
-        # create one random connection
-        in_node = np.random.choice([n for n in self.nodes if n.node_type == 'input'])
-        out_node = np.random.choice([n for n in self.nodes if n.node_type == 'output'])
-        innovation_number = self.callbacks['find_or_create_innovation'](in_node, out_node)
-        self.add_connection(in_node, out_node)
+
+        # connect some inputs to outputs
+        for in_node in [n for n in self.nodes if n.node_type == 'input']:
+            for out_node in [n for n in self.nodes if n.node_type == 'output' and np.random.uniform() < 0.5]:
+                innovation_number = self.callbacks['find_or_create_innovation'](in_node, out_node)
+                self.add_connection(in_node, out_node)
 
     def feed_forward(self, inputs):
         # check if inputs match the number of input nodes
