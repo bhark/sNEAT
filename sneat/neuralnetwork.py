@@ -50,7 +50,7 @@ class NeuralNetwork:
 
         # compute values for hidden and output nodes
         retries = 0
-        while len(handled_nodes) < len(self.nodes) and retries < 20:
+        while len(handled_nodes) < len(self.nodes) and retries < 3:
             for node in [n for n in self.nodes if n not in handled_nodes]:
                 incoming_connections = [c for c in self.connections if c.out_node == node]
                 node_dependencies = [c.in_node for c in incoming_connections]
