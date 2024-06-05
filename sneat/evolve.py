@@ -19,9 +19,14 @@ def evaluate_population(pop, ff):
     print('\n')
     with mp.Pool(mp.cpu_count() - 1) as p:
         # set the fitness of all genomes using evaluate_genome (which returns a single fitness score), and tqdm for multiprocessing
-        fitness_scores = list(tqdm(p.imap(evaluate_genome, [(g, ff) for g in pop.genomes]), total=len(pop.genomes), desc='[-] Evaluating', leave=False))
-        for g, fitness in zip(pop.genomes, fitness_scores):
-            g.fitness = fitness
+        try:
+            fitness_scores = list(tqdm(p.imap(evaluate_genome, [(g, ff) for g in pop.genomes]), total=len(pop.genomes), desc='[-] Evaluating', leave=False))
+            for g, fitness in zip(pop.genomes, fitness_scores):
+                g.fitness = fitness
+        except KeyboardInterrupt:
+            p.terminate()
+            p.join()
+            return # exit early
 
 def save_checkpoint(pop):
     with open('checkpoint.pkl', 'wb') as f:
