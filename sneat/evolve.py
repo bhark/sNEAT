@@ -55,13 +55,13 @@ def print_stats(pop):
     print(f'[i] Species: {len(pop.species)}')
     print(f'[i] Average fitness: {round(np.mean([g.fitness for g in pop.genomes]), 2)}')
     print(f'[i] Best fitness: {round(max(g.fitness for g in pop.genomes), 2)} (best ever: {round(pop.best_genome_seen.fitness, 2) if pop.best_genome_seen else 'N/A'})')
-    print('-' * 85)
+    print('-' * 88)
 
     # print species
     headers = ['Species', 'Members', 'Best Fitness', 'Average Fitness', 'Stagnation', 'Best Complexity']
     data = [[s.id, len(s.members), round(max(g.fitness for g in s.members), 2), round(np.mean([g.fitness for g in s.members]), 2), s.stagnation, f'{len(s.members[0].network.nodes)}n + {len(s.members[0].network.connections)}'] for s in species]
     print(tb(data, headers=headers))
-    print('-' * 85)
+    print('-' * 88)
 
 def evolve(fitness_function):
     config = get_config()
@@ -89,22 +89,25 @@ def evolve(fitness_function):
             if pop.generation % 10 == 0:
                 save_checkpoint(pop)
 
-            best_fitness = max(g.fitness for g in pop.genomes)
+            genomes = sorted(pop.genomes, key=lambda x: x.fitness, reverse=True)
+            best = genomes[0]
 
-            if pop.best_genome_seen is None or best_fitness > pop.best_genome_seen.fitness:
-                new_best = max(pop.genomes, key=lambda x: x.fitness)
+            if pop.best_genome_seen is None or best.fitness > pop.best_genome_seen.fitness:
+                new_best = best.clone()
                 print(f'\n\n[+] New best genome found with fitness: {round(new_best.fitness, 2)} (previous was {round(pop.best_genome_seen.fitness, 2) if pop.best_genome_seen else 'N/A'})')
-                pop.best_genome_seen = new_best.clone()
+                pop.best_genome_seen = new_best
 
-            if best_fitness >= max_fitness:
-                save_genome(pop.best_genome_seen, 'winner.pkl')
-                print(f'\n\n[+] Winner found with fitness: {pop.best_genome_seen.fitness}\n\n')
-                return pop.best_genome_seen
+            if best.fitness >= max_fitness:
+                winner = max(pop.genomes, key=lambda x: x.fitness)
+                save_genome(winner, 'winner.pkl')
+                print(f'\n\n[+] Winner found with fitness: {winner.fitness}\n\n')
+                return winner
             
             if pop.generation >= max_generations:
-                save_genome(pop.best_genome_seen, 'winner.pkl')
-                print(f'\n\n[+] Reached max generations, and achieved a fitness of: {pop.best_genome_seen.fitness}\n\n')
-                return pop.best_genome_seen
+                winner = max(pop.genomes, key=lambda x: x.fitness)
+                save_genome(winner, 'winner.pkl')
+                print(f'\n\n[+] Reached max generations, and achieved a fitness of: {winner.fitness}\n\n')
+                return winner
                 
     except KeyboardInterrupt:
             print(f'\n\n[+] Best genome saved, with a fitness of {pop.best_genome_seen.fitness}\n')
