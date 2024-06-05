@@ -112,6 +112,14 @@ class Population:
                 
             offspring.extend(s_offspring)
 
+        # add genomes if we're below the population size
+        while len(offspring) < population_size:
+            g = np.random.choice(offspring).clone()
+            g.mutate()
+            g.id = self.get_next_genome_id()
+            offspring.append(g)
+
+
         # re-speciate
         self.generation += 1
         self.speciate(offspring)
