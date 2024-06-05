@@ -76,7 +76,9 @@ def evolve(fitness_function):
             print_stats(pop)
 
             # reproduce
+            print(f'[-] Reproducing...', end='\r', flush=True)
             pop.reproduce()
+            print(f'[+] Reproduced                                   ')
 
             # save checkpoint
             if pop.generation % 10 == 0:
@@ -90,7 +92,7 @@ def evolve(fitness_function):
                 pop.best_genome_seen = new_best.clone()
 
             if best_fitness >= max_fitness:
-                save_genome(best_genomne_seen, 'winner.pkl')
+                save_genome(best_genome_seen, 'winner.pkl')
                 print(f'\n\n[+] Winner found with fitness: {pop.best_genome_seen.fitness}\n\n')
                 return pop.best_genome_seen
             
