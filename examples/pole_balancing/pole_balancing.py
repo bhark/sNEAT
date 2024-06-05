@@ -32,8 +32,13 @@ def fitness(genome, render=False):
     return np.mean(fitnesses)
 
 def main():
-    winner = evolve(fitness)
-    fitness(winner, render=True)
+    if sys.argv > 1:
+        with open(sys.argv[1], 'rb') as f:
+            winner = pickle.load(f)
+            fitness(winner, render=True)
+    else:
+        winner = evolve(fitness)
+        fitness(winner, render=True)
 
 if __name__ == '__main__':
     main()
