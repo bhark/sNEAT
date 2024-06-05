@@ -28,43 +28,54 @@ class NeuralNetwork:
         self.add_connection(in_node, out_node)
 
     def feed_forward(self, inputs):
-
         # check if inputs match the number of input nodes
-        if len(inputs) != len([n for n in self.nodes if n.node_type == 'input']):
-            raise ValueError(f'Wrong input shape. Expected {len([n for n in self.nodes if n.node_type == "input"])} inputs, but got {len(inputs)}.')
+        input_nodes = [n for n in self.nodes if n.node_type == 'input']
+        if len(inputs) != len(input_nodes):
+            raise ValueError(f'Wrong input shape. Expected {len(input_nodes)} inputs, but got {len(inputs)}.')
 
         if hasattr(self, 'normalizer'):
             self.normalizer.observe(inputs)
             inputs = self.normalizer.normalize(inputs)
 
+        # convert inputs to np array
+        inputs = np.array(inputs)
+
         # reset node values
         for node in self.nodes:
             node.value = 0.0
+            node.ready = False
 
-        handled_nodes = []
+        node_dict = {node.id: node for node in self.nodes}
 
         # assign input values
-        for node, input_value in zip([n for n in self.nodes if n.node_type == 'input'], inputs):
-            node.value = input_value
-            handled_nodes.append(node)
+        for node, input_value in zip(input_nodes, inputs):
+            node_dict[node.id].value = input_value
+            node_dict[node.id].ready = True
 
-        # compute values for hidden and output nodes
-        retries = 0
-        while len(handled_nodes) < len(self.nodes) and retries < 3:
-            for node in [n for n in self.nodes if n not in handled_nodes]:
-                incoming_connections = [c for c in self.connections if c.out_node == node]
-                node_dependencies = [c.in_node for c in incoming_connections]
-                if not set(node_dependencies).issubset(handled_nodes):
-                    retries += 1
+        # assign hidden and output values
+        while not all(node.ready for node in node_dict.values()):
+            for node in node_dict.values():
+                if node.ready:
                     continue
-                agg_input = sum(conn.weight * conn.in_node.value for conn in incoming_connections if conn.enabled)
-                activation_function = activation_functions[node.activation]
-                node.value = activation_function(agg_input + node.bias)
-                handled_nodes.append(node)
-                retries = 0
+
+                # get the incoming connections
+                incoming_connections = [c for c in self.connections if c.out_node == node and c.enabled]
+
+                if not incoming_connections:
+                    node.ready = True
+                    node.value = activation_functions[node.activation](node.value)
+                    continue
+
+                # check if all incoming connections are ready
+                if all(node_dict[c.in_node.id].ready for c in incoming_connections):
+                    # calc node value
+                    node_dict[node.id].value = np.sum([node_dict[c.in_node.id].value * c.weight for c in incoming_connections]) + node_dict[node.id].bias
+                    node_dict[node.id].value = activation_functions[node.activation](node_dict[node.id].value)
+                    node.ready = True
 
         # return output values
-        return [n.value for n in self.nodes if n.node_type == 'output']
+        output_nodes = [node for node in self.nodes if node.node_type == 'output']
+        return [node_dict[node.id].value for node in output_nodes]
 
     def add_random_node(self):
         '''
@@ -257,6 +268,7 @@ class Node:
         self.callbacks = callbacks
         self.activation = self.initialize_activation()
         self.value = 0.0
+        self.ready = False
 
     def initialize_activation(self):
         type_to_activation = {
