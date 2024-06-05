@@ -10,17 +10,15 @@ A simplified implementation of [Neuro-evolution of Augmenting Topologies](https:
 
 Another implementation of NEAT in Python already exists (by CodeReclaimers, [here](https://github.com/CodeReclaimers/neat-python)), which is thorough and really nice work. However, as things stand, it faces some deeper issues and thus doesn't perform in accordance with the benchmarks provided in the original paper, and is no longer maintained. This solution has cut down to the bone in an attempt to simplify both usage and the codebase, and to achieve the expected results. 
 
-Full disclosure, this was made for the fun of it, and is playing fast and loose with the rules. 
-
 ## How? 
 
 In the simplest case, all you need to begin training a neural network for any given problem is a fitness function. 
 
-1. Install the package
+**1. Install the package**
 
 `$ pip install sneat`
 
-2. Set up your fitness function
+**2. Set up your fitness function**
 
 Your fitness function should take a genome and output a fitness score based on how well that genome solves the task. 
 Here's a simple example, training a neural network that will output the sum of its inputs:
@@ -38,7 +36,7 @@ def fitness_function(genome):
     return fitness
 ```
 
-3. Magic
+**3. Magic**
 
 There's a bunch of hyperparameters that can (should) be configured for your given problem, but again we'll take a simple approach and just use the default hyperparameters along with the default evolution loop:
 
@@ -57,7 +55,7 @@ winner = evolve(fitness_function)
 - The maximum number of generations are reached
 - The user cancels (`CTRL+C`)
 
-## Configuration and complexities
+## How, but more? 
 
 A default configuration file is supplied, but you'll probably want to change some details (such as the number of input and output nodes in the networks). You can include as few or as many configuration elements as you want; those you don't provide will fall back to the defaults. 
 
@@ -97,3 +95,21 @@ max_fitness = 4 # set to 0 to disable
 If you want to have more control over the whole loop (for custom reporting, for example), I'd suggest importing the `Population` class and working around that. This class has `.reproduce()`, which will perform selection, cross-over and mutation on all genomes based on their fitness values. Finally, it will properly speciate the new genomes and move on to the next generation. 
 
 `Population.species` is a list containing all the species, which in turn offers `Species.genomes`. I'll let you figure out the rest - the code is pretty straight-forward. 
+
+## Running the examples
+
+Some examples are included in this repo, using [Gymnasium](https://gymnasium.farama.org/index.html#). To run them, first install the examples dependencies:
+
+`pip install sneat[examples]`
+
+You can then run one of the examples to begin training; fx:
+
+`python examples/lunar_lander/lunar_lander.py`
+
+The winning genome will be saved as `winner.pkl`. If you want to see it in action, run the example with the name of the saved genome as the first argument:
+
+`python examples/lunar_lander/lunar_lander.py winner.pkl`
+
+## Results
+
+Naturally, results vary with each run. On average, it takes about 170 generations to solve [Lunar Lander](https://gymnasium.farama.org/environments/box2d/lunar_lander/). [Bipedal Walker](https://gymnasium.farama.org/environments/box2d/bipedal_walker/) takes about 800 generations. I've never been able to solve any of these environments with other open-source NEAT implementations. 
