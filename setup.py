@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='sneat',
-    version='1.0.1',
+    version='1.0.2',
     packages=find_packages(),
     package_data={'sneat': ['default_config.ini']},
     install_requires=[
@@ -17,9 +17,10 @@ setup(
     ],
     extras_require={
         'examples': [
-            'gymnasium',
+            'gymnasium==1.0.0a2',
             'gymnasium[box2d]',
             'gymnasium[classic_control]',
+            'gymnasium[mujoco]'
         ]
     },
     author='Adrian E. Bratlann',

@@ -9,7 +9,7 @@ cycler==0.12.1
 docutils==0.21.2
 Farama-Notifications==0.0.4
 fonttools==4.52.4
-gymnasium==0.29.1
+gymnasium==1.0.0a2
 idna==3.7
 importlib_metadata==7.1.0
 jaraco.classes==3.4.0
