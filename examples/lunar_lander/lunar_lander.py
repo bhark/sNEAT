@@ -10,26 +10,21 @@ from sneat import evolve
 
 def fitness(genome, render=False):
     env = gym.make('LunarLander-v2', continuous=True, render_mode='human' if render else 'rgb_array')
+    obs, info = env.reset()
 
-    fitnesses = []
-    for _ in range(2):
-        fitness = 0
+    fitness = 0
+    for _ in range(1000):
+        obs = list(obs)
+        action = genome.activate(obs)
+        obs, reward, terminated, truncated, info = env.step(action)
 
-        obs, info = env.reset()
-        while True:
-            obs = list(obs)
-            action = genome.activate(obs)
-            obs, reward, terminated, truncated, info = env.step(action)
+        fitness += reward
 
-            fitness += reward
+        if terminated or truncated:
+            obs, info = env.reset()
 
-            if terminated or truncated:
-                break
-
-        fitnesses.append(fitness)
-    
     env.close()
-    return np.mean(fitnesses)
+    return fitness
 
 def main():
     if len(sys.argv) > 1:
