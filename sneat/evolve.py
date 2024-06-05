@@ -97,7 +97,7 @@ def evolve(fitness_function):
                 pop.best_genome_seen = new_best.clone()
 
             if best_fitness >= max_fitness:
-                save_genome(best_genome_seen, 'winner.pkl')
+                save_genome(pop.best_genome_seen, 'winner.pkl')
                 print(f'\n\n[+] Winner found with fitness: {pop.best_genome_seen.fitness}\n\n')
                 return pop.best_genome_seen
             
