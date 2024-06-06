@@ -110,9 +110,10 @@ def evolve(fitness_function):
                 return winner
                 
     except KeyboardInterrupt:
-            print(f'\n\n[+] Best genome saved, with a fitness of {pop.best_genome_seen.fitness}\n')
-            save_genome(pop.best_genome_seen, 'winner.pkl')
-            return pop.best_genome_seen
+            winner = max(pop.genomes, key=lambda x: x.fitness)
+            print(f'\n\n[+] Best genome saved, with a fitness of {winner.fitness}\n')
+            save_genome(winner, 'winner.pkl')
+            return winner
 
 
     
