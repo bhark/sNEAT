@@ -1,8 +1,8 @@
 # sNEAT (Simplified NEAT)
 
-![GitHub Tag](https://img.shields.io/github/v/tag/bhark/sneat) 
 ![PyPI - Version](https://img.shields.io/pypi/v/sneat)
 ![PyPI - License](https://img.shields.io/pypi/l/sneat)
+[![Downloads](https://static.pepy.tech/badge/sneat)](https://pepy.tech/project/sneat)
 
 A simplified implementation of [Neuro-evolution of Augmenting Topologies](https://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf), a novel technique for neuro-evolution developed by Kenneth O. Stanley. 
 
