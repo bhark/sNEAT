@@ -3,12 +3,13 @@
 ![PyPI - Version](https://img.shields.io/pypi/v/sneat)
 ![PyPI - License](https://img.shields.io/pypi/l/sneat)
 [![Downloads](https://static.pepy.tech/badge/sneat)](https://pepy.tech/project/sneat)
+[![Downloads](https://static.pepy.tech/badge/sneat/month)](https://pepy.tech/project/sneat)
 
 A simplified implementation of [Neuro-evolution of Augmenting Topologies](https://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf), a novel technique for neuro-evolution developed by Kenneth O. Stanley. 
 
 ## Why? 
 
-Another implementation of NEAT in Python already exists (by CodeReclaimers, [here](https://github.com/CodeReclaimers/neat-python)), which is thorough and really nice work. However, as things stand, it faces some deeper issues and thus doesn't perform in accordance with the benchmarks provided in the original paper, and is no longer maintained. This solution has cut down to the bone in an attempt to simplify both usage and the codebase, and to achieve the expected results. 
+Another implementation of NEAT in Python already exists (by CodeReclaimers, [here](https://github.com/CodeReclaimers/neat-python)), which is thorough and really nice work. However, as things stand, it faces some deeper issues and thus doesn't perform in accordance with the benchmarks provided in the original paper, and is no longer maintained. This solution has cut down to the bone in an attempt to simplify both usage and the codebase, and to achieve the expected results. This implementation is not as efficient as it could be - if you want to pick up some work, there's lots to be done on the performance side of this project. 
 
 ## How? 
 
