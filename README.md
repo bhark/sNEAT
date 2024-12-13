@@ -9,7 +9,7 @@ A simplified implementation of [Neuro-evolution of Augmenting Topologies](https:
 
 ## Why? 
 
-Another implementation of NEAT in Python already exists (by CodeReclaimers, [here](https://github.com/CodeReclaimers/neat-python)), which is thorough and really nice work. However, as things stand, it faces some deeper issues and thus doesn't perform in accordance with the benchmarks provided in the original paper, and is no longer maintained. This solution has cut down to the bone in an attempt to simplify both usage and the codebase, and to achieve the expected results. This implementation is not as efficient as it could be - if you want to pick up some work, there's lots to be done on the performance side of this project. 
+This solution has cut down to the bone in an attempt to simplify both usage and the codebase, and to achieve the expected results. Efficiency is not the primary focus of this project - it serves primarily as educational material. If you're looking for a performant GPU-accelerated NEAT implementation, your best bet would probably be [tensorneat](https://github.com/EMI-Group/tensorneat).  
 
 ## How? 
 
